@@ -29,17 +29,8 @@ public class HandDetection
 		int[] arrayOfInt3 = { 7, 3 };
 	}
 
-	public static Mat BGR2HSL(Mat paramMat)
-	{
-		Imgproc.cvtColor(paramMat, paramMat, 40);
-		return paramMat;
-	}
-
-	public static Mat RGB2HSL(Mat paramMat)
-	{
-		Imgproc.cvtColor(paramMat, paramMat, 41);
-		return paramMat;
-	}
+	
+	
 
 	public static Mat blur(Mat paramMat)
 	{
@@ -49,7 +40,8 @@ public class HandDetection
 
 	public static Scalar calc_avg_palm_color(Mat paramMat)
 	{
-		Mat localMat = RGB2HSL(paramMat);
+		Mat localMat=new Mat();
+		Imgproc.cvtColor(paramMat, localMat, Imgproc.COLOR_RGB2HSV);
 		ArrayList localArrayList = new ArrayList();
 		int i = 0;
 		if (i >= roi.size())

@@ -57,6 +57,8 @@ import org.opencv.utils.Converters;
 import org.opencv.video.BackgroundSubtractorMOG;
 import org.opencv.video.BackgroundSubtractorMOG2;
 
+
+//Used Opencv Tutorial example Code
 public class MainActivity extends Activity implements CvCameraViewListener2,
 View.OnTouchListener {
 	private static final String TAG = "OCVSample::Activity";
@@ -74,7 +76,7 @@ View.OnTouchListener {
 	private Mat mSpectrum;
 	private boolean palmdetected = false;
 	private boolean palmsample = true;
-	private ColorBlobDetector mDetector;
+
 	private BackgroundSubtractorMOG mbackgroundsubstractor;
 	private Scalar mBlobColorHsv;
 	private Scalar mBlobColorRgba;
@@ -173,7 +175,7 @@ View.OnTouchListener {
 		Log.i(TAG, "called onCreate");
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
+
 		setContentView(R.layout.tutorial3_surface_view);
 		skincolorHSV[0] = 20;
 		skincolorHSV[1]=150;
@@ -217,14 +219,7 @@ View.OnTouchListener {
 		mOpenCvCameraView.setResolution(resolution);
 		this.mRgba = new Mat(width, height, CvType.CV_8UC4);
 		interMat=new Mat();
-		//		this.mDetector = new ColorBlobDetector();
-		//		this.mSpectrum = new Mat();
-		//		this.mBlobColorRgba = new Scalar(255.0D);
-		//		this.mBlobColorHsv = new Scalar(255.0D);
-		//		this.SPECTRUM_SIZE = new org.opencv.core.Size(200.0D, 64.0D);
-		//		this.CONTOUR_COLOR = new Scalar(255.0D, 0.0D, 0.0D, 255.0D);
-		// this.mbackgroundsubstractor= new BackgroundSubtractorMOG(3, 4, 0.8);
-		//this.mbackgroundsubstractor = new BackgroundSubtractorMOG(30, 4, 0.8);
+
 
 
 		// Simon
@@ -243,7 +238,7 @@ View.OnTouchListener {
 		Mat hsv_mask=new Mat();
 
 
-		// face detection
+		// face detection OpenCV example code
 		//if(mode==DETECTION_MODE){
 		if (mAbsoluteFaceSize == 0) {
 			int height = mGray.rows();
@@ -270,8 +265,9 @@ View.OnTouchListener {
 			// draw face rectange
 			// Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
 			// FACE_RECT_COLOR, 3);
+
 			// set pixels of face to black
-			mRgba.submat(facesArray[i]).setTo(new Scalar(255, 255, 255, 255));
+			mRgba.submat(facesArray[i]).setTo(new Scalar(255, 255, 255));
 
 		}
 
@@ -282,28 +278,12 @@ View.OnTouchListener {
 
 
 		if(!fastmode){
-			//Imgproc.GaussianBlur(mRgba, mRgba, new org.opencv.core.Size(5, 5), 5, 5);
 
-			//Imgproc.cvtColor(mRgba, mRgba, Imgproc.COLOR_RGBA2RGB);
-
-			// Convert original RGB colorspace to the colorspace indicated by
-			// COLR_SPACE
-			//		Imgproc.GaussianBlur(mRgba, mRgba, new org.opencv.core.Size(5, 5), 5, 5);
-			//		Imgproc.cvtColor(mRgba, interMat, Imgproc.COLOR_RGB2Lab);
-
-			if (mode == BACKGROUND_MODE) { // First mode which presamples background
-				// colors
-				//preSampleBack(rgbaMat);
+			if (mode == BACKGROUND_MODE) { 
 				return binaryImageGenerator.presampleBackground(mRgba);
-			} else if (mode == SAMPLE_MODE) { // Second mode which presamples the
-				// colors of the hand
-				//preSampleHand(rgbaMat);
+			} else if (mode == SAMPLE_MODE) { 
 				return binaryImageGenerator.presampleHand(mRgba);
-			} else if (mode == DETECTION_MODE) { // Third mode which generates the
-				// binary image containing the
-				// segmented hand represented by white color
-				//produceBinImg(interMat, binMat);
-				//return binMat;
+			} else if (mode == DETECTION_MODE) { 
 
 
 
@@ -321,7 +301,7 @@ View.OnTouchListener {
 			//Scalar hsv_min = new Scalar(0, 43, 80, 0);
 			//Scalar hsv_max = new Scalar(25, 255, 255, 0);
 
-			
+
 			Scalar hsv_min = new Scalar((skincolorHSV[0]), skincolorHSV[1], skincolorHSV[2], 0);
 			Scalar hsv_max = new Scalar(skincolorHSV[0]+10, skincolorHSV[1]+10, skincolorHSV[2]+10, 0);
 			// colorrange
@@ -350,71 +330,14 @@ View.OnTouchListener {
 			List<Finger> potentialfingerL = new ArrayList<Finger>();
 			//reset 
 			Finger.reset();
-			//		Mat mhsv = new Mat();
-			////		Mat mRGB = new Mat();
-			//		// Scalar hsv_min = new Scalar(0, 30, 80, 0);
-			//		// Scalar hsv_max = new Scalar(20, 150, 255, 0);
-			////
-			//		Scalar hsv_min = new Scalar(0, 43, 80, 0);
-			//		Scalar hsv_max = new Scalar(25, 255, 255, 0);
-			////
-			////		// background substraction
-			//		Imgproc.cvtColor(mRgba, mhsv, Imgproc.COLOR_RGB2HSV);// opencv uses
-			//																// values for
-			//																// HSV H:0-180
-			//																// S: 0 - 255,
-			//																// V: 0 - 255
-			// Imgproc.cvtColor(mRgba, mRGB, Imgproc.COLOR_RGBA2RGB);
-			// Imgproc.cvtColor(mRgba, mhsv, Imgproc.COLOR_RGB2HSV);
-			// Mat mRgb2=new Mat();
-			// Imgproc.cvtColor(mRgba, mRgb2, Imgproc.COLOR_RGB2HSV_FULL); //HSV
-			// H:0-255 S: 0 - 255, V: 0 - 255
-
-			// for(int i=0;i<3;i++){
-			//
-			// System.out.println(mRgb.get(0, 0)[i]+"-------"+mRgb2.get(0, 0)[i]);
-			// }
-
-			// mhsv or mrgb
-			// mbackgroundsubstractor.apply(mRGB, fgmask,0.001);
-			// if(!fgmask.empty()){return fgmask;}
-			// System.out.println(mRgb.toString());
-
-			// mbackgroundsubstractor.
-			// Core.bitwise_not(fgmask, fgmask);
-
-			// hsv_mask=fgmask;
-
-			// colorrange
-			//		Core.inRange(mhsv, hsv_min, hsv_max, hsv_mask);
-			////		mRGB.release();
-			////		mhsv.release();
-			//		Imgproc.GaussianBlur(hsv_mask, hsv_mask,
-			//				new org.opencv.core.Size(3, 3), 0);
-			////
-			//		Imgproc.erode(hsv_mask, hsv_mask, new Mat());
-			////
-			//		Imgproc.dilate(hsv_mask, hsv_mask, new Mat());
 
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-			//		if(true){
-			//			
-			//			//Core.bitwise_not(hsv_mask, hsv_mask);
-			//			return hsv_mask;
-			//		}
 
-
-			// background substraction
-			// Core.bitwise_not(hsv_mask, hsv_mask);
-			// Imgproc.GaussianBlur(hsv_mask, hsv_mask, new
-			// org.opencv.core.Size(5,5), 0);
-			// Imgproc.dilate(hsv_mask, hsv_mask, new Mat());
-			// Imgproc.dilate(hsv_mask, hsv_mask, new Mat());
 			Imgproc.findContours(hsv_mask.clone(), contours, new Mat(),
 					Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
 			List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
-			// Find max contour area
+			// Find max contour area Opencv example code
 			double maxArea = 0;
 			Iterator<MatOfPoint> each = contours.iterator();
 			while (each.hasNext()) {
@@ -437,28 +360,27 @@ View.OnTouchListener {
 
 
 				if (Imgproc.contourArea(contour) > mMinContourArea * maxArea) {
-					// Core.multiply(contour, new Scalar(4,4), contour);
 
 					mContours.add(contour);
 				}
 			}
 
-			// List<MatOfPoint> contours = new Vector() ;
-			// Imgproc.findContours(hsv_mask, contours, new Mat(),
-			// Imgproc.RETR_FLOODFILL, Imgproc.CHAIN_APPROX_SIMPLE);
+
+			//Iterate over all contours /hands
 			for (int g = 0; g < mContours.size(); g++) {
 				if (mContours.size() > 0) {
 
+
+					//Invrease Hand count
 					Finger.numOfHands++;
 					// Imgproc.drawContours(mRgba,mContours , -1, new Scalar(0,0,255));
+
+					//find bounding box of hand
 					Rect brect = Imgproc.boundingRect(mContours.get(g));
 					Core.rectangle(mRgba, brect.tl(), brect.br(), new Scalar(0, 255, 0));
 
 					// calc moments center point
-					//List<Moments> mu = new ArrayList<Moments>(mContours.size());
-					//for (int i = 0; i < mContours.size(); i++) {
-					//mu.add(g, Imgproc.moments(mContours.get(g), false));
-					//Moments p = mu.get(g);
+
 					Moments momP = Imgproc.moments(mContours.get(g),false);
 					int px = (int) (momP.get_m10() / momP.get_m00());
 					int py = (int) (momP.get_m01() / momP.get_m00());
@@ -468,14 +390,17 @@ View.OnTouchListener {
 
 					//}
 
-					
+
 					MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
 					mContours.get(g).convertTo(mMOP2f1, CvType.CV_32FC2);
 					//MatOfPoint2f pts = new MatOfPoint2f(mContours.get(g).toArray());
+					//find min area rectangle
 					RotatedRect mrect = Imgproc.minAreaRect(mMOP2f1);
 
 					Point[] rect_points = new Point[4];
 					mrect.points(rect_points);
+
+					//draw rectangle
 					for (int j = 0; j < 4; j++) {
 						Core.line(mRgba, rect_points[j], rect_points[(j + 1) % 4],
 								new Scalar(255, 255, 0));
@@ -498,20 +423,13 @@ View.OnTouchListener {
 					MatOfPoint hullPointMat = new MatOfPoint();
 					hullPointMat.fromList(hullPointList);
 					hullPoints.add(hullPointMat);
-					//					MatOfPoint2f mMOP2f1=new MatOfPoint2f();
-					//					MatOfPoint2f mMOP2f2=new MatOfPoint2f();
-					//					
-					//					contour.convertTo(mMOP2f1, CvType.CV_32FC2);
-					//					Imgproc.approxPolyDP(mMOP2f1, mMOP2f2, 3, true);
-					//					mMOP2f2.convertTo(contour, CvType.CV_32S);
+
 					// draw convex hull
 					Imgproc.drawContours(mRgba, hullPoints, -1, new Scalar(255, 0, 0,
 							255), 1);
 
-					if(false){
-						return mRgba;
-					}
-					// convexity defect
+
+					//find  convexity defect
 					MatOfInt4 convexityDefects = new MatOfInt4();
 					if(hullInt.rows() > 3){
 						Imgproc.convexityDefects(mContours.get(g), hullInt,
@@ -519,16 +437,13 @@ View.OnTouchListener {
 					}else break;
 					List<Integer> dList = convexityDefects.toList();
 					Point[] contourPts = mContours.get(g).toArray();
-					
 
 
+					//retreive all start points, end points, farthest points, approximate distances
 					for (int i = 0; i < dList.size(); i = i + 4) {
 						if (dList.size() > 0) {
 
-							// start point, end point, farthest point, approximate
-							// distance to farthest point
-							//int id = i % 4;
-							//int id=0;
+
 							int startpointind = dList.get(i );
 							int endpointind = dList.get(i  + 1);
 							int farhestpointind = dList.get(i  + 2);
@@ -550,33 +465,17 @@ View.OnTouchListener {
 								listmop.add(new MatOfPoint(pi));
 							}
 
-							// Core.circle(mRgba, startPoint, 3, new
-							// Scalar(255,255,255));
-							// Core.circle(mRgba, endPoint, 3, new Scalar(255,255,255));
-
-							//draw distance to point
-							//							Core.circle(mRgba, farhtestPoint, approxdistance/256/2, new
-							//									Scalar(255,255,0));
-
-
-
-							// Core.polylines(mRgba, listmop , false, new
-							// Scalar(0,255,255));
-
-							//System.out.println(approxdistance/256+"    -      "+(mrect.size.height / 2));
-
-
-
-
 
 							//	if((mrect.size.height / 2)>approxdistance/256 && approxdistance/256>Finger.mindefectdepth){
+
+							//filter defects for min defectdepth
 							if(approxdistance/256>Finger.mindefectdepth ){
 
 								//calc angle between vectors 
 								Point vecFtoS= new Point(farhtestPoint.x-startPoint.x,farhtestPoint.y-startPoint.y);
 								Point vecFtoE= new Point(farhtestPoint.x-endPoint.x,farhtestPoint.y-endPoint.y);
 
-								//System.out.println(approxdistance);
+
 								double dot=(vecFtoS.dot(vecFtoE));
 								double betrag=Math.sqrt(vecFtoS.x*vecFtoS.x+(vecFtoS.y*vecFtoS.y))*
 										Math.sqrt(vecFtoE.x*vecFtoE.x+(vecFtoE.y*vecFtoE.y));
@@ -600,62 +499,12 @@ View.OnTouchListener {
 
 
 
-						// if (id == 2) { //Defect point
-						// double depth = (double)dList.get(i+1)/256.0;
-						// curPoint = contourPts[dList.get(i)];
-						//
-						// Point curPoint0 = contourPts[dList.get(i-2)];
-						// Point curPoint1 = contourPts[dList.get(i-1)];
-						// Point vec0 = new Point(curPoint0.x - curPoint.x, curPoint0.y
-						// - curPoint.y);
-						// Point vec1 = new Point(curPoint1.x - curPoint.x, curPoint1.y
-						// - curPoint.y);
-						// double dot = vec0.x*vec1.x + vec0.y*vec1.y;
-						// double lenth0 = Math.sqrt(vec0.x*vec0.x + vec0.y*vec0.y);
-						// double lenth1 = Math.sqrt(vec1.x*vec1.x + vec1.y*vec1.y);
-						// double cosTheta = dot/(lenth0*lenth1);
-						//
-						// if ((depth > hg.inCircleRadius*0.7)&&(cosTheta>=-0.7)
-						// && (!isClosedToBoundary(curPoint0, rgbaMat))
-						// &&(!isClosedToBoundary(curPoint1, rgbaMat))
-						// ){
-						//
-						//
-						// hg.defectIdAfter.add((i));
-						//
-						//
-						// Point finVec0 = new Point(curPoint0.x-hg.inCircle.x,
-						// curPoint0.y-hg.inCircle.y);
-						// double finAngle0 = Math.atan2(finVec0.y, finVec0.x);
-						// Point finVec1 = new Point(curPoint1.x-hg.inCircle.x,
-						// curPoint1.y - hg.inCircle.y);
-						// double finAngle1 = Math.atan2(finVec1.y, finVec1.x);
-						//
-						//
-						//
-						// if (hg.fingerTipsOrdered.size() == 0) {
-						// hg.fingerTipsOrdered.put(finAngle0, curPoint0);
-						// hg.fingerTipsOrdered.put(finAngle1, curPoint1);
-						//
-						// } else {
-						//
-						//
-						// hg.fingerTipsOrdered.put(finAngle0, curPoint0);
-						//
-						//
-						// hg.fingerTipsOrdered.put(finAngle1, curPoint1);
-						//
-						//
-						// }
-						//
-						// }
-						//
-						//
-						//
-						// }
+
 					}
 				}
 			}
+
+			//Iterate over finger
 			Iterator<Finger> iter = potentialfingerL.iterator();
 			while (iter.hasNext()) {
 				Finger f=iter.next();
@@ -677,132 +526,27 @@ View.OnTouchListener {
 			}
 			System.out.println(Finger.maxdistance);
 			Core.circle(mRgba, mompoint, (int)Finger.maxdistance, new Scalar(125, 125, 0));
-			String log="Fingertips:"+Integer.toString(Finger.numberOftips)+"__"+Finger.numOfHands+"___";
+			int fingertips=Finger.calcnumbfingertips();
+			String log="Fingertips:"+Integer.toString(fingertips)+"--"+Finger.numOfHands+"   ";
 			for(int o =0; o<Finger.handId.length;o++){
 
 				if(Finger.handId[o]>0)
-					log=log+"Hand:"+o+" Fingers:"+Finger.handId[o];
+					log=log+ "Hand:"+o+" Defects:"+Finger.handId[o];
 			}
-			Core.putText(mRgba, log, new Point(0,mRgba.rows()),Core.FONT_ITALIC , 0.5,new Scalar(255, 255, 255));
-
-			audioPlayer.add(Finger.numberOftips, 3);
-			// List<MatOfPoint> hullPoints = new ArrayList<MatOfPoint>();
-
-			// convex hull of all contours
-			// for (int k=0; k < contours.size(); k++){
-			// MatOfInt hullInt=new MatOfInt();
-			// Imgproc.convexHull(contours.get(k), hullInt);
-			//
-			// List<Point> hullPointList=new ArrayList<Point>();
-			// for(int j=0; j < hullInt.toList().size(); j++){
-			//
-			// hullPointList.add(
-			// contours.get(k).toList().get(hullInt.toList().get(j)));
-			//
-			// }
-			//
-			// MatOfPoint hullPointMat=new MatOfPoint();
-			// hullPointMat.fromList(hullPointList);
-			// hullPoints.add(hullPointMat);
-			// }
-			//
-			// Imgproc.drawContours(mRgba, hullPoints, -1, new Scalar(255,0,0, 255),
-			// 1);
-
-			// Mat mask=new Mat();
-			// Imgproc.cvtColor(fgmask, mask, Imgproc.COLOR_GRAY2RGB);
-			// mRgba.copyTo(mRgba, mask);
-			// mRgb.release();
-			// mRgba=fgmask;
-
-			// Gaussian blur
-
-			// Imgproc.GaussianBlur(mRgb, mRgb, new org.opencv.core.Size(5,5), 0);
-
-			// Imgproc.threshold(mRgb, mRgb, 80, 255,
-			// Imgproc.THRESH_OTSU+Imgproc.THRESH_BINARY_INV);
-
-			// Core.bitwise_not(mRgb, mRgb);
-			// Imgproc.cvtColor(mRgb, mRgb, Imgproc.COLOR_GRAY2RGBA);
+			Core.putText(mRgba, log, new Point(0,mRgba.rows()-10),Core.FONT_ITALIC , 0.5,new Scalar(255, 255, 255));
+			if(Finger.numOfHands>0){
+			audioPlayer.add(fingertips, 3);
+			}
 
 			Imgproc.cvtColor(hsv_mask, hsv_mask, Imgproc.COLOR_GRAY2RGBA, 4);
-			// Imgproc.erode(hsv_mask, hsv_mask, new Mat());
-			// Imgproc.dilate(hsv_mask, hsv_mask, new Mat());
-			// Imgproc.GaussianBlur(hsv_mask, hsv_mask, new
-			// org.opencv.core.Size(5,5), 0);
 
-			// Imgproc.resize(hsv_mask, hsv_mask,rect.size());
-			// hsv_mask.copyTo(mRgb.colRange(0, 127),mRgb.rowRange(0,127));
-			// Core.addWeighted(mRgba, 0.5, hsv_mask, 0.5, 0, mRgba);
 
-			// Mat mat =new Mat(mRgba.rows(), mRgba.cols(), CvType.CV_8UC4);
-			// Rect rect=new Rect(0, 0, mat.cols()/2, mat.rows()/2);
-			// Mat roi=mat.submat(rect);
-			if(true){
-				//return hsv_mask;
-			};
-
-			//Mat roi = mRgba.submat(rect);
-
-			// hsv_mask.copyTo(roi);
-			// roi.setTo(new Scalar(255,255,255));
 			this.mOpenCvCameraView.enableFpsMeter();
-			// Imgproc.resize(mRgb2, mRgb2,roi2.size());
 
-			//Imgproc.resize(hsv_mask, hsv_mask, roi.size());
-			//hsv_mask.copyTo(roi);
-			// mRgb2.copyTo(roi2);
-			// mRgb2.release();
-			//return mRgba;
-			//return mRgba;
-
-			// Mat localMat1;
-			// if (this.palmsample)
-			// {
-			// this.mRgba = palmoverlay(this.mRgba);
-			// localMat1 = this.mRgba;
-			// }
-			// else
-			// {
-			//
-			// if (this.palmdetected)
-			// {
-			// this.mDetector.process(this.mRgba);
-			// List localList = this.mDetector.getContours();
-			// Log.e("OCVSample::Activity", "Contours count: " + localList.size());
-			// Imgproc.drawContours(this.mRgba, localList, -1, this.CONTOUR_COLOR);
-			// this.mRgba.submat(4, 68, 4, 68).setTo(this.mBlobColorRgba);
-			// Mat localMat2 = this.mRgba.submat(4, 4 + this.mSpectrum.rows(), 70,
-			// 70 + this.mSpectrum.cols());
-			// this.mSpectrum.copyTo(localMat2);
-			// localMat1 = this.mRgba;
-			// }
-			// else
-			// {
-			// localMat1 = this.mRgba;
-			// }
-			// }
-			// Rect rect=new Rect(4, 4, 68, 68);
-			// System.out.println(rect.toString());
-			// // Mat roi = new Mat(localMat1,rect);
-			//Mat roi = mRgba.submat(4, 68, 4, 68);
-			//
-			// Imgproc.resize(hsv_mask, hsv_mask, new org.opencv.core.Size(64,64));
-			// Imgproc.cvtColor(hsv_mask, hsv_mask, Imgproc.COLOR_GRAY2RGBA,4);
-			//
-			// hsv_mask.copyTo(mRgba.colRange(0, 127),mRgba.rowRange(0,127));
-			//roi.copyTo(hsv_mask);
-			// hsv_mask.copyTo(roi);
-			//
-			//return roi;
 			Rect rect=new Rect(0, 0, mRgba.cols()/4, mRgba.rows()/4);
 
 			Mat roi=mRgba.submat(rect);
 
-			//hsv_mask.copyTo(roi);
-			//roi.setTo(new Scalar(255,255,255));
-			//this.mOpenCvCameraView.enableFpsMeter();
-			// Imgproc.resize(mRgb2, mRgb2,roi2.size());
 
 			Imgproc.resize(hsv_mask, hsv_mask,roi.size());
 			hsv_mask.copyTo(roi);
@@ -897,8 +641,8 @@ View.OnTouchListener {
 		int y = (int) event.getY() - yOffset;
 		Mat mhsv=new Mat();
 		Imgproc.cvtColor(mRgba, mhsv, Imgproc.COLOR_RGB2HSV);
-		 skincolorHSV = mhsv.get(x, y);
-		 
+		skincolorHSV = mhsv.get(x, y);
+
 		switch (mode) {
 		case (BACKGROUND_MODE):
 			// rgbaMat.copyTo(backMat);
@@ -944,49 +688,6 @@ View.OnTouchListener {
 		return new Scalar(localMat.get(0, 0));
 	}
 
-	private Mat palmoverlay(Mat paramMat) {
-		if (HandDetection.roi.size() != 7) {
-			Rect localRect1 = new Rect(new Point(paramMat.cols() / 3,
-					paramMat.rows() / 6), new Point(10 + paramMat.cols() / 3,
-							10 + paramMat.rows() / 6));
-			Rect localRect2 = new Rect(new Point(paramMat.cols() / 4,
-					paramMat.rows() / 2), new Point(10 + paramMat.cols() / 4,
-							10 + paramMat.rows() / 2));
-			Rect localRect3 = new Rect(new Point(paramMat.cols() / 3,
-					paramMat.rows() / 1.5D), new Point(
-							10 + paramMat.cols() / 3, 10.0D + paramMat.rows() / 1.5D));
-			Rect localRect4 = new Rect(new Point(paramMat.cols() / 2,
-					paramMat.rows() / 2), new Point(10 + paramMat.cols() / 2,
-							10 + paramMat.rows() / 2));
-			Rect localRect5 = new Rect(new Point(paramMat.cols() / 2.5D,
-					paramMat.rows() / 2.5D), new Point(
-							10.0D + paramMat.cols() / 2.5D,
-							10.0D + paramMat.rows() / 2.5D));
-			Rect localRect6 = new Rect(new Point(paramMat.cols() / 2,
-					paramMat.rows() / 1.5D), new Point(
-							10 + paramMat.cols() / 2, 10.0D + paramMat.rows() / 1.5D));
-			Rect localRect7 = new Rect(new Point(paramMat.cols() / 2.5D,
-					paramMat.rows() / 1.8D), new Point(
-							10.0D + paramMat.cols() / 2.5D,
-							10.0D + paramMat.rows() / 1.8D));
-			HandDetection.roi.add(localRect1);
-			HandDetection.roi.add(localRect2);
-			HandDetection.roi.add(localRect3);
-			HandDetection.roi.add(localRect4);
-			HandDetection.roi.add(localRect5);
-			HandDetection.roi.add(localRect6);
-			HandDetection.roi.add(localRect7);
-		}
-		for (int i = 0;; i++) {
-			if (i >= 7) {
-				Log.i("OCVSample::Activity", "drawed on pic");
-				return paramMat;
-			}
-			Core.rectangle(paramMat, ((Rect) HandDetection.roi.get(i)).tl(),
-					((Rect) HandDetection.roi.get(i)).br(), new Scalar(255.0D,
-							255.0D, 255.0D));
-		}
-	}
 
 
 
@@ -1005,7 +706,7 @@ View.OnTouchListener {
 		static final int mindefectdepth=20;
 		static double maxarea;
 		static double maxdistance=0;
-		static int numberOftips=0;
+		static int numberOfdefects=0;
 
 
 
@@ -1044,7 +745,7 @@ View.OnTouchListener {
 			Core.line(image, this.start, this.far,Finger.startcolor );
 			Core.line(image, this.far, this.end, Finger.endcolor);
 			Core.circle(image, end, 2,Finger.fingertip , -1);
-			Finger.numberOftips++;
+			Finger.numberOfdefects++;
 			handId[handID]++;
 			//if(this.isthumb){
 
@@ -1060,11 +761,25 @@ View.OnTouchListener {
 
 			Finger.maxarea=0;
 			Finger.maxdistance=0;
-			Finger.numberOftips=0;
+			Finger.numberOfdefects=0;
 			Finger.numOfHands=0;
 			for(int i=0;i<Finger.handId.length;i++)
 				Finger.handId[i]=0;
 
+
+		}
+
+		static int calcnumbfingertips(){
+
+			int f=0;
+			for(int o =0; o<Finger.handId.length;o++){
+
+				if(Finger.handId[o]>0)
+				{
+					f=f+handId[o]+1;
+				}
+			}
+			return f;
 
 		}
 	};

@@ -12,6 +12,8 @@ import android.hardware.Camera.Size;
 import android.util.AttributeSet;
 import android.util.Log;
 
+
+//Source OpenCV Tutorial
 public class Tutorial3View extends JavaCameraView implements PictureCallback {
 
     private static final String TAG = "Sample::Tutorial3View";

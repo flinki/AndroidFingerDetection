@@ -1,3 +1,4 @@
+// The idea of presampling is from Simen Andresen (http://simena86.github.io/blog/2013/08/12/hand-tracking-and-recognition-with-opencv/)
 package it.peretti.kofler.androidfingerdetection;
 
 import org.opencv.core.Core;

@@ -1,41 +1,21 @@
 package it.peretti.kofler.androidfingerdetection;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.hardware.Camera;
-import android.hardware.Camera.Size;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SubMenu;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.widget.Toast;
 import it.peretti.kofler.fingerdetection.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Vector;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -49,23 +29,34 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
-import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.utils.Converters;
 import org.opencv.video.BackgroundSubtractorMOG;
-import org.opencv.video.BackgroundSubtractorMOG2;
+
+import android.app.Activity;
+import android.content.Context;
+import android.hardware.Camera.Size;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.SubMenu;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 
 //Used Opencv Tutorial example Code
 public class MainActivity extends Activity implements CvCameraViewListener2,
 View.OnTouchListener {
 	private static final String TAG = "OCVSample::Activity";
-	private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
+	
 	public static final int JAVA_DETECTOR = 0;
 	public static final int NATIVE_DETECTOR = 1;
-	private Scalar CONTOUR_COLOR;
+	
 	private Tutorial3View mOpenCvCameraView;
 	private List<Size> mResolutionList;
 	private MenuItem[] mEffectMenuItems;
@@ -73,18 +64,15 @@ View.OnTouchListener {
 	private MenuItem[] mResolutionMenuItems;
 	private SubMenu mResolutionMenu;
 	private Mat mRgba;
-	private Mat mSpectrum;
-	private boolean palmdetected = false;
-	private boolean palmsample = true;
+	
 
-	private BackgroundSubtractorMOG mbackgroundsubstractor;
-	private Scalar mBlobColorHsv;
-	private Scalar mBlobColorRgba;
+	//private BackgroundSubtractorMOG mbackgroundsubstractor;
+	
 	private File mCascadeFile;
 	private CascadeClassifier mJavaDetector;
 	private DetectionBasedTracker mNativeDetector;
 	private int mDetectorType = NATIVE_DETECTOR;
-	private String[] mDetectorName;
+	
 	private boolean fastmode=false;
 	private float mRelativeFaceSize = 0.2f;
 	private int mAbsoluteFaceSize = 0;
@@ -99,7 +87,7 @@ View.OnTouchListener {
 	public static final int DETECTION_MODE = 3;
 	// Initial mode is BACKGROUND_MODE to presample the colors of the hand
 	private int mode = BACKGROUND_MODE;
-	private Mat interMat ;;
+	
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 
@@ -159,11 +147,11 @@ View.OnTouchListener {
 			}
 		}
 	};
-	private org.opencv.core.Size SPECTRUM_SIZE;
+	
 	private SubMenu mCameraMenu;
 	private MenuItem[] mCameranMenuItems;
 	private Mat mGray;
-	private Mat fgmask;
+	
 
 	public MainActivity() {
 		Log.i(TAG, "Instantiated new " + this.getClass());
@@ -218,7 +206,7 @@ View.OnTouchListener {
 		Size resolution = mOpenCvCameraView.getResolutionList().get(5);
 		mOpenCvCameraView.setResolution(resolution);
 		this.mRgba = new Mat(width, height, CvType.CV_8UC4);
-		interMat=new Mat();
+		
 
 
 
@@ -594,9 +582,9 @@ View.OnTouchListener {
 
 		mCameranMenuItems = new MenuItem[2];
 		mCameranMenuItems[0] = mCameraMenu.add(3,
-				mOpenCvCameraView.CAMERA_ID_BACK, Menu.NONE, "BackCamera");
+				CameraBridgeViewBase.CAMERA_ID_BACK, Menu.NONE, "BackCamera");
 		mCameranMenuItems[1] = mCameraMenu.add(3,
-				mOpenCvCameraView.CAMERA_ID_FRONT, Menu.NONE, "FrontCamera");
+				CameraBridgeViewBase.CAMERA_ID_FRONT, Menu.NONE, "FrontCamera");
 
 		return true;
 	}

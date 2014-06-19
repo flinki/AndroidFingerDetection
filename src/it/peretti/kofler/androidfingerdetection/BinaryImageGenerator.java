@@ -18,8 +18,8 @@ public class BinaryImageGenerator {
 	private double[][] colorLowerBackground = new double[SAMPLE_NUMBER][3];
 	private double[][] colorUpperBackground = new double[SAMPLE_NUMBER][3];
 
-	private Scalar lowerBound = new Scalar(0, 0, 0);
-	private Scalar upperBound = new Scalar(0, 0, 0);
+	private Scalar lowerBoundary = new Scalar(0, 0, 0);
+	private Scalar upperBoundary = new Scalar(0, 0, 0);
 	private Mat[] sampleMats = new Mat[SAMPLE_NUMBER];
 
 	public BinaryImageGenerator() {
@@ -197,18 +197,17 @@ public class BinaryImageGenerator {
 			}
 		}
 	}
-	// Generates binary image thresholded only by sampled hand colors
 	private Mat produceBinaryHandImage(Mat img) {
 		Mat imgOut = new Mat();
 		for (int i = 0; i < SAMPLE_NUMBER; i++) {
-			lowerBound.set(new double[] { averageHandColor[i][0] - colorLower[i][0],
+			lowerBoundary.set(new double[] { averageHandColor[i][0] - colorLower[i][0],
 					averageHandColor[i][1] - colorLower[i][1],
 					averageHandColor[i][2] - colorLower[i][2] });
-			upperBound.set(new double[] { averageHandColor[i][0] + colorUpper[i][0],
+			upperBoundary.set(new double[] { averageHandColor[i][0] + colorUpper[i][0],
 					averageHandColor[i][1] + colorUpper[i][1],
 					averageHandColor[i][2] + colorUpper[i][2] });
 
-			Core.inRange(img, lowerBound, upperBound, sampleMats[i]);
+			Core.inRange(img, lowerBoundary, upperBoundary, sampleMats[i]);
 
 		}
 
@@ -223,21 +222,20 @@ public class BinaryImageGenerator {
 		return imgOut;
 	}
 
-	// Generates binary image thresholded only by sampled background colors
 	private Mat produceBinBackImg(Mat img) {
 		Mat imgOut = new Mat();
 		for (int i = 0; i < SAMPLE_NUMBER; i++) {
 
-			lowerBound.set(new double[] {
+			lowerBoundary.set(new double[] {
 					averageBackgroundColor[i][0] - colorLowerBackground[i][0],
 					averageBackgroundColor[i][1] - colorLowerBackground[i][1],
 					averageBackgroundColor[i][2] - colorLowerBackground[i][2] });
-			upperBound.set(new double[] {
+			upperBoundary.set(new double[] {
 					averageBackgroundColor[i][0] + colorUpperBackground[i][0],
 					averageBackgroundColor[i][1] + colorUpperBackground[i][1],
 					averageBackgroundColor[i][2] + colorUpperBackground[i][2] });
 
-			Core.inRange(img, lowerBound, upperBound, sampleMats[i]);
+			Core.inRange(img, lowerBoundary, upperBoundary, sampleMats[i]);
 		}
 
 		imgOut.release();
